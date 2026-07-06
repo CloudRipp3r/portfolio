@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karimi Wanjohi — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505;
+  --primary:#F59E0B;
+  --secondary:#FBBF24;
+  --tertiary:#AEFD0D;
+  --text-primary:#F4F4F5;
+  --text-secondary:#A1A1AA;
+  --border:rgba(255,255,255,0.1);
+  --font-display:'Inter',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-label:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px;
+  --sp-8:32px; --sp-10:40px; --sp-14:56px; --sp-20:80px;
+  --radius-control:4px; --radius-card:12px; --radius-pill:9999px;
+  --glow: 0 0 8px rgba(245,158,11,0.8);
+  --drop: 0 25px 50px -12px rgba(0,0,0,0.25);
+  --ease: cubic-bezier(0.4,0,0.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body); font-weight:300; font-size:16px; line-height:24px;
+  color:var(--text-primary); background:var(--bg); min-height:100vh; position:relative; overflow-x:hidden;
+}
+.bg-field{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:var(--sp-6) var(--sp-4);
+  display:flex;flex-direction:column;gap:var(--sp-14);}
+h1{font-family:var(--font-display);font-weight:600;font-size:64px;line-height:1.05;letter-spacing:-0.03em;color:var(--text-primary);}
+h2{font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.2;margin-bottom:var(--sp-6);color:var(--text-primary);}
+h3{font-size:22px;font-weight:600;line-height:1.3;margin-bottom:var(--sp-2);color:var(--text-primary);}
+p{color:var(--text-secondary);margin-bottom:var(--sp-3);}
+.label{font-family:var(--font-label);font-size:11px;letter-spacing:1.65px;text-transform:uppercase;color:var(--text-secondary);display:block;margin-bottom:var(--sp-2);}
+.glass{background:rgba(4,4,4,0.8);backdrop-filter:blur(24px);border:0.91px solid var(--border);
+  border-radius:var(--radius-card);padding:var(--sp-5);box-shadow:var(--drop);transition:transform 150ms var(--ease);}
+.glass:hover{transform:translateY(-3px);}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:var(--radius-control);
+  font-weight:600;text-decoration:none;cursor:pointer;transition:all 150ms var(--ease);font-size:14px;}
+.btn-primary{background:var(--primary);color:#000;border:none;}
+.btn-primary:hover{background:var(--secondary);}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;background:rgba(245,158,11,0.1);color:var(--primary);
+  border-radius:var(--radius-pill);font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;white-space:nowrap;}
+.tag-group{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-3);}
+.hero{text-align:center;padding:var(--sp-20) var(--sp-6);display:flex;flex-direction:column;align-items:center;gap:var(--sp-4);
+  box-shadow:var(--glow);border-radius:var(--radius-card);
+  background:linear-gradient(120deg, rgba(245,158,11,0.08), rgba(5,5,5,0.9) 60%);}
+.hero .handle{font-family:var(--font-label);font-size:11px;letter-spacing:1.65px;text-transform:uppercase;color:var(--secondary);}
+.hero p.tagline{font-size:18px;color:var(--text-primary);max-width:600px;margin-top:var(--sp-2);}
+.section-header{display:flex;flex-direction:column;gap:var(--sp-1);}
+.skills-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-6);}
+.skill-group h4{font-family:var(--font-label);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--secondary);margin-bottom:var(--sp-2);}
+.projects-grid{display:grid;grid-template-columns:1fr;gap:var(--sp-6);}
+.project-card h3{color:var(--primary);}
+.project-card .meta{font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:var(--sp-3);}
+.project-card .link{margin-top:var(--sp-3);display:inline-block;}
+.egad{margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid var(--border);}
+.egad h4{font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--secondary);margin:var(--sp-3) 0 var(--sp-1);}
+.egad ul{list-style:none;padding-left:var(--sp-4);margin-bottom:var(--sp-2);}
+.egad li{position:relative;margin-bottom:var(--sp-1);color:var(--text-secondary);}
+.egad li::before{content:'•';color:var(--tertiary);position:absolute;left:-1em;}
+
+/* EGAD Framework toggle + reveal panel */
+.egad-toggle{
+  display:inline-flex;align-items:center;gap:8px;margin-top:var(--sp-4);
+  padding:10px 16px;border-radius:var(--radius-control);
+  background:rgba(245,158,11,0.08);border:0.91px solid rgba(245,158,11,0.35);
+  color:var(--primary);font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+  cursor:pointer;transition:background 150ms var(--ease), color 150ms var(--ease);
+}
+.egad-toggle:hover{background:rgba(245,158,11,0.16);}
+.egad-toggle .chev{transition:transform 200ms var(--ease);display:inline-block;}
+.egad-toggle.open .chev{transform:rotate(180deg);}
+
+.egad-panel{
+  display:none;margin-top:var(--sp-5);padding-top:var(--sp-5);border-top:1px solid var(--border);
+  animation:fadeIn 300ms var(--ease);
+}
+.egad-panel.open{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+.egad-phase{
+  border-radius:var(--radius-card);padding:var(--sp-4);margin-bottom:var(--sp-4);
+  background:rgba(255,255,255,0.02);border-left:3px solid var(--phase-color, var(--primary));
+}
+.egad-phase:last-child{margin-bottom:0;}
+.egad-phase .phase-name{
+  font-family:var(--font-label);font-size:12px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--phase-color, var(--primary));margin-bottom:var(--sp-3);display:block;font-weight:600;
+}
+.egad-phase.phase-explain{--phase-color:#F59E0B;}
+.egad-phase.phase-gather{--phase-color:#FBBF24;}
+.egad-phase.phase-analyze{--phase-color:#AEFD0D;}
+.egad-phase.phase-deploy{--phase-color:#F4F4F5;}
+
+.egad-sub{margin-bottom:var(--sp-3);}
+.egad-sub:last-child{margin-bottom:0;}
+.egad-sub .sub-label{
+  font-family:var(--font-label);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--text-secondary);display:block;margin-bottom:4px;
+}
+.egad-sub p{margin-bottom:6px;font-size:14px;line-height:1.5;}
+.egad-sub ul{list-style:none;padding-left:var(--sp-4);}
+.egad-sub li{position:relative;margin-bottom:4px;color:var(--text-secondary);font-size:14px;}
+.egad-sub li::before{content:'•';color:var(--phase-color, var(--tertiary));position:absolute;left:-1em;}
+.alpha-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--sp-6);}
+.alpha-card .sharpe{display:inline-block;margin-top:var(--sp-2);font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--tertiary);}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);margin-top:var(--sp-3);}
+.metric{text-align:center;padding:10px 4px;background:rgba(255,255,255,0.03);border-radius:var(--radius-control);}
+.metric .val{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--primary);display:block;}
+.metric .lbl{font-family:var(--font-label);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-secondary);}
+.code-block{font-family:var(--font-label);font-size:12.5px;line-height:1.7;background:rgba(0,0,0,0.45);padding:16px;border-radius:8px;overflow-x:auto;white-space:pre;color:#D4D4D8;}
+.code-block .cm{color:var(--text-secondary);font-style:italic;}
+.timeline{position:relative;padding-left:var(--sp-6);}
+.timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--border);}
+.t-item{position:relative;padding-bottom:var(--sp-6);}
+.t-item:last-child{padding-bottom:0;}
+.t-dot{position:absolute;left:-24px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--secondary);border:2px solid var(--bg);}
+.t-dot.done{background:var(--tertiary);}
+.t-dot.active{background:var(--primary);box-shadow:0 0 6px rgba(245,158,11,0.8);}
+.t-date{font-family:var(--font-label);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-secondary);}
+.t-status{display:inline-block;margin-left:var(--sp-2);font-family:var(--font-label);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:var(--radius-pill);}
+.t-status.done{background:rgba(174,253,13,0.12);color:var(--tertiary);}
+.t-status.active{background:rgba(245,158,11,0.15);color:var(--primary);}
+.t-status.planned{background:rgba(251,191,36,0.12);color:var(--secondary);}
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);}
+.goal-card .src{font-family:var(--font-label);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--tertiary);margin-top:var(--sp-2);display:block;}
+footer.contact{text-align:center;padding:var(--sp-10) 0;}
+@media (max-width:768px){
+  h1{font-size:40px;} h2{font-size:28px;}
+  .hero{padding:var(--sp-10) var(--sp-4);}
+}
+</style>
+</head>
+<body>
+<canvas class="bg-field" id="field"></canvas>
+<script>
+const c=document.getElementById('field'),ctx=c.getContext('2d');
+let dots=[];
+function resize(){c.width=innerWidth;c.height=innerHeight;dots=[];const sp=42;
+  for(let x=0;x<c.width;x+=sp){for(let y=0;y<c.height;y+=sp){dots.push({x,y,o:0.05+Math.random()*0.15,ph:Math.random()*6.28});}}}
+function draw(t){ctx.clearRect(0,0,c.width,c.height);
+  for(const d of dots){const pulse=0.5+0.5*Math.sin(t/2000+d.ph);
+    ctx.fillStyle=`rgba(174,253,13,${d.o*pulse})`;
+    ctx.beginPath();ctx.arc(d.x,d.y,1.6,0,6.28);ctx.fill();}
+  requestAnimationFrame(draw);}
+addEventListener('resize',resize);resize();requestAnimationFrame(draw);
+
+function toggleEgad(id){
+  const panel=document.getElementById('egad-'+id);
+  const btn=panel.previousElementSibling;
+  panel.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('span:first-child').textContent = panel.classList.contains('open') ? 'Hide EGAD Framework' : 'View EGAD Framework';
+}
+</script>
+
+<div class="wrap">
+
+  <section class="hero">
+    <span class="handle">Data &amp; Quant Research</span>
+    <h1>Karimi Wanjohi</h1>
+    <p class="tagline">Building quantitative research tools, AI-assisted dashboards, and data systems — currently deep in NSE market research and AI engineering.</p>
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+  </section>
+
+  <section id="skills">
+    <div class="section-header"><span class="label">Capabilities</span><h2>Skills</h2></div>
+    <div class="skills-groups">
+      <div class="skill-group glass">
+        <h4>Data &amp; Analysis</h4>
+        <div class="tag-group">
+          <span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Polars</span>
+          <span class="tag">DuckDB</span><span class="tag">Data Cleaning</span><span class="tag">Statistics</span>
+        </div>
+      </div>
+      <div class="skill-group glass">
+        <h4>Visualization &amp; BI</h4>
+        <div class="tag-group">
+          <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Dashboards</span>
+          <span class="tag">Data Storytelling</span><span class="tag">Google Sheets</span>
+        </div>
+      </div>
+      <div class="skill-group glass">
+        <h4>Quant &amp; Finance</h4>
+        <div class="tag-group">
+          <span class="tag">Alpha Research</span><span class="tag">Factor Investing</span>
+          <span class="tag">NSE Markets</span><span class="tag">QuantConnect</span><span class="tag">Backtesting</span>
+        </div>
+      </div>
+      <div class="skill-group glass">
+        <h4>AI &amp; Agents</h4>
+        <div class="tag-group">
+          <span class="tag">RAG</span><span class="tag">Langflow</span><span class="tag">LangChain</span>
+          <span class="tag">Multi-Agent Systems</span><span class="tag">AWS AI Practitioner</span>
+        </div>
+      </div>
+      <div class="skill-group glass">
+        <h4>Currently Learning</h4>
+        <div class="tag-group">
+          <span class="tag">TypeScript</span><span class="tag">JavaScript</span>
+          <span class="tag">Machine Learning</span><span class="tag">Pydantic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-header"><span class="label">Work</span><h2>Projects</h2></div>
+    <div class="projects-grid">
+
+      <article class="glass project-card">
+        <h3>Athena — NSE Quantitative Research System</h3>
+        <p class="meta">In Progress · Foundation Phase</p>
+        <p>A private research system for the Nairobi Securities Exchange, built to bring together clean market data, a signal-testing environment, and a simple language for expressing trading ideas — inspired directly by the discipline learned from WorldQuant BRAIN's alpha research process.</p>
+        <p>The goal is to make it possible to reliably ask questions of 66 NSE-listed companies' financial and market history, test trading ideas against nearly two decades of data, and eventually let non-programmers write valid signal expressions in plain syntax.</p>
+        <div class="tag-group">
+          <span class="tag">Data Validation</span><span class="tag">Cloud Databases</span>
+          <span class="tag">Signal Research</span><span class="tag">System Design</span>
+        </div>
+
+        <button class="egad-toggle" onclick="toggleEgad('athena')">
+          <span>View EGAD Framework</span><span class="chev">▾</span>
+        </button>
+
+        <div class="egad-panel" id="egad-athena">
+          <div class="egad-phase phase-explain">
+            <span class="phase-name">Explain</span>
+            <div class="egad-sub">
+              <span class="sub-label">The Problem</span>
+              <p>Kenya has markets — 66 listed companies, 13 sectors, nearly two decades of price history, and a growing derivatives market (NEXT) — but it doesn't have the research tools to study them systematically. Every serious NSE researcher today is stuck with manual downloads, spreadsheets, and broker platforms built for placing trades, not generating insight.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Three Root Problems</span>
+              <ul>
+                <li><strong>No trusted data foundation</strong> — NSE financials are scattered across PDFs, filings, and broker terminals with no cross-validation, so comparing two companies properly takes days before any real analysis starts.</li>
+                <li><strong>No systematic research environment</strong> — platforms like WorldQuant BRAIN let you test an idea across hundreds of companies at once; nothing equivalent exists for NSE.</li>
+                <li><strong>Deep market knowledge with no translation layer</strong> — Kenyan analysts understand banking dynamics, agricultural cycles, and sector-specific risk deeply, but there's no way to turn that knowledge into a testable, executable signal without also being a software engineer.</li>
+              </ul>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Why NEXT Matters</span>
+              <p>NEXT is Kenya's derivatives exchange — futures on 10 of NSE's largest stocks plus the NSE 25 index. Trading costs are roughly 0.22% per contract versus 0.9%–2.2% for buying shares directly, and it allows both long and short positions — which makes a systematic research edge far more valuable to express here than on the spot market.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-gather">
+            <span class="phase-name">Gather</span>
+            <div class="egad-sub">
+              <span class="sub-label">Guiding Principle</span>
+              <p>No emerging-market dataset is perfect. Rather than waiting for clean data, Athena builds a validation system rigorous enough that imperfect data gets cleaned, flagged, or rejected before it ever reaches a researcher.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Six Data Categories</span>
+              <ul>
+                <li><strong>Universe</strong> — every listed company, sector, and trading status</li>
+                <li><strong>Prices</strong> — daily OHLC and volume, 2007–2025</li>
+                <li><strong>Fundamentals</strong> — audited financials for all 66 companies</li>
+                <li><strong>Forensic</strong> — the gap between preliminary and final audited results (a signal on management credibility that doesn't exist anywhere else for NSE)</li>
+                <li><strong>Macro</strong> — CBK rates, exchange rates, inflation</li>
+                <li><strong>Market Structure</strong> — foreign investor flows and NEXT derivatives activity</li>
+              </ul>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Validation Standard</span>
+              <p>Every row of financial data passes automatic accounting checks (assets = liabilities + equity), flags on revenue jumps over 10x year-on-year, and duplicate-filing rejection — running on every ingestion cycle, not just at setup.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-analyze">
+            <span class="phase-name">Analyze</span>
+            <div class="egad-sub">
+              <span class="sub-label">Value Proposition</span>
+              <p>A researcher can express an idea in plain language (e.g. "companies whose audited profit is significantly lower than their preliminary reported profit tend to underperform"), test it against 18 years of NSE data, and see exactly how well it worked — before committing any money.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Competitive Moat</span>
+              <ul>
+                <li>The audit-delta signal is computed automatically for every company — data nobody else has structured for NSE</li>
+                <li>NEXT has no systematic algorithmic participants yet — a validated signal isn't competing with the market, it's operating in a different dimension from it</li>
+                <li>AEL (Athena Expression Language) lets domain experts write ideas in plain syntax — e.g. "rank companies by return on equity minus non-performing loan ratio" — without needing to code</li>
+                <li>Derivatives cost up to 10x less to trade than direct equity, making signals viable on NEXT that wouldn't be profitable on the spot market</li>
+              </ul>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Three Quality Gates</span>
+              <p>Every signal must pass: (1) the Idea Test — does it have a logical reason to work; (2) the Statistics Test — does the top-ranked group consistently outperform the bottom group across 18 years, not just one good period; (3) the Uniqueness Test — does it add something genuinely new, not just repeat an existing signal.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-deploy">
+            <span class="phase-name">Deploy</span>
+            <div class="egad-sub">
+              <span class="sub-label">Plan 1 — Foundation (Active Now)</span>
+              <p>A clean, validated database across all six data categories for all 66 NSE companies. Success: any company's data can be queried and trusted without manual verification.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Plan 2 — Research Engine (Planned)</span>
+              <p>Signal-testing infrastructure against 18 years of NSE data. Success: the first signal validated with genuine statistical backing.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Plan 3 — Expression Language, AEL (Planned)</span>
+              <p>Autocomplete, real-time error checking, field documentation in VS Code/Neovim. Success: a non-programmer writes a valid signal on their first session.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Plan 4 — Live Execution (Planned)</span>
+              <p>Bridges validated signals to live NEXT futures positions. Success: the first systematic trade executed from an Athena-generated signal.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Plan 5 — Platform (Planned)</span>
+              <p>A subscription platform where researchers own their signals outright — same model as QuantConnect. Success: a second, independently onboarded researcher produces a signal that passes all three quality gates.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="glass project-card">
+        <h3>VectorDash — CPI Forecast Dashboard</h3>
+        <p class="meta">Built July 2025 – March 2026 · Live</p>
+        <p>Before this existed, checking US inflation data meant manually scanning several different government and financial sites just to see how CPI and its underlying drivers were trending. VectorDash brings all of it — CPI, producer prices, wages, rent, gas prices, and interest rate signals — into one place, with a forecasting model and AI-generated summaries explaining what the numbers actually mean.</p>
+        <p>It was built to solve a problem I ran into myself: needing a fast, visual way to check inflation trends without digging through raw data every time. Building it was also where I first got hands-on with AI-assisted development and interface design.</p>
+        <div class="tag-group">
+          <span class="tag">React / TypeScript</span><span class="tag">Forecast Modeling</span>
+          <span class="tag">Gemini API</span><span class="tag">FRED API</span><span class="tag">Dashboard Design</span>
+        </div>
+        <a class="btn btn-primary link" href="https://vectordash.onrender.com/" target="_blank" rel="noopener">Open Live Dashboard →</a>
+
+        <button class="egad-toggle" onclick="toggleEgad('vectordash')">
+          <span>View EGAD Framework</span><span class="chev">▾</span>
+        </button>
+
+        <div class="egad-panel" id="egad-vectordash">
+          <div class="egad-phase phase-explain">
+            <span class="phase-name">Explain</span>
+            <div class="egad-sub">
+              <span class="sub-label">Problem</span>
+              <p>There was no single place to see CPI alongside the indicators that actually drive it — producer prices, wages, rent, gas, and interest rate signals. Checking all of it meant manually scanning the Bureau of Labor Statistics, FRED, and financial news, one page at a time.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Communicating It</span>
+              <p>Instead of just tables, VectorDash uses charts and sparklines to show how the underlying drivers move together, with a click-through deep-dive view for each indicator, and Gemini-generated plain-language summaries explaining what's actually happening.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-gather">
+            <span class="phase-name">Gather</span>
+            <div class="egad-sub">
+              <span class="sub-label">Data Sources</span>
+              <ul>
+                <li>Headline &amp; Core CPI from FRED</li>
+                <li>Producer Price Index (goods), Average Hourly Earnings (services), Rent/OER (shelter), Gasoline prices (energy)</li>
+                <li>2-year Treasury yield (monetary stance) and 5/10-year breakeven inflation rates (market expectations)</li>
+              </ul>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Handling Messy Data</span>
+              <p>Economic data doesn't all arrive on the same schedule — PPI comes out before CPI, rent data lags real market rates. The system smooths this out using multi-month trend calculations instead of relying on any single data point.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-analyze">
+            <span class="phase-name">Analyze</span>
+            <div class="egad-sub">
+              <span class="sub-label">The Forecasting Approach</span>
+              <p>A top-down model estimates next month's CPI change by combining the trends in wages, producer prices, shelter costs, and gas prices — each weighted by how much it typically moves the overall number. Shelter carries the heaviest weight since it moves CPI the most.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Policy &amp; Expectations</span>
+              <p>The model also adjusts for interest-rate policy (tight yields pull inflation forecasts down) and long-term market expectations, so forecasts don't just chase recent numbers — they account for where policy is steering things.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Sanity Checking</span>
+              <p>If the forecast direction disagrees with what the underlying indicators are actually doing, the system flags the inconsistency rather than silently showing a number that doesn't add up.</p>
+            </div>
+          </div>
+
+          <div class="egad-phase phase-deploy">
+            <span class="phase-name">Deploy</span>
+            <div class="egad-sub">
+              <span class="sub-label">Build</span>
+              <p>React/TypeScript frontend with an Express backend, integrated directly with the Google Gemini API for narrative summaries.</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Live</span>
+              <p>Deployed and publicly accessible at vectordash.onrender.com, with security basics in place (CORS protection, token verification).</p>
+            </div>
+            <div class="egad-sub">
+              <span class="sub-label">Ongoing</span>
+              <p>Forecast accuracy gets checked against each new official CPI release, and the model's weightings get recalibrated periodically as the underlying economic data shifts.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="alphas">
+    <div class="section-header"><span class="label">Quant Research</span><h2>WorldQuant BRAIN — Alpha Research</h2></div>
+    <p>Before Athena, I spent time in WorldQuant BRAIN's research environment, where the challenge is to design trading signals ("alphas") and prove — with strict testing rules — that they actually hold up on real market data. I haven't reached Consultant status yet, but the discipline from this process shaped how Athena is being built today. Here are the two alphas I submitted and passed:</p>
+    <div class="alpha-grid">
+
+      <div class="glass alpha-card">
+        <h3>Earnings Expectations Gap</h3>
+        <p>This signal compares how a company's earnings actually came in against what was expected, then tracks whether that gap has been trending wider or narrower over roughly the last two years. The idea: companies that keep beating expectations by a growing margin tend to keep being underestimated by the market, and vice versa.</p>
+        <div class="metrics-grid">
+          <div class="metric"><span class="val">1.30</span><span class="lbl">Sharpe</span></div>
+          <div class="metric"><span class="val">1.05</span><span class="lbl">Fitness</span></div>
+          <div class="metric"><span class="val">8.18%</span><span class="lbl">Returns</span></div>
+          <div class="metric"><span class="val">4.88%</span><span class="lbl">Turnover</span></div>
+          <div class="metric"><span class="val">6.72%</span><span class="lbl">Drawdown</span></div>
+          <div class="metric"><span class="val">33.55‱</span><span class="lbl">Margin</span></div>
+        </div>
+        <button class="egad-toggle" onclick="toggleEgad('alpha1')">
+          <span>View Alpha Logic</span><span class="chev">▾</span>
+        </button>
+        <div class="egad-panel" id="egad-alpha1">
+          <div class="egad-phase phase-gather">
+            <span class="phase-name">Expression (BRAIN fastexpr)</span>
+            <div class="egad-sub">
+<pre class="code-block"><span class="cm">// Rank every company by the gap below, from lowest to highest</span>
+alpha = rank(
+  winsorize(
+    <span class="cm">// How a company's ACTUAL earnings effect has ranked</span>
+    <span class="cm">// against its own history over the last ~2 years (504 trading days)</span>
+    ts_rank(ts_backfill(vec_avg(ern4_erneffct1), 3), 504)
+
+    <span class="cm">// minus how the FORECASTED earnings effect has ranked</span>
+    <span class="cm">// against its own history over the same period</span>
+    - ts_rank(ts_backfill(vec_avg(ern4_fcsterneffct), 3), 504),
+
+    <span class="cm">// Cap extreme outlier values so a few wild numbers</span>
+    <span class="cm">// don't distort the whole ranking</span>
+    std=3
+  )
+);</pre>
+              <p style="margin-top:12px;">In plain terms: this measures the gap between where a company's <em>real</em> earnings performance stands versus where <em>analyst forecasts</em> say it should stand — then ranks every company by the size of that gap.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass alpha-card">
+        <h3>Accrual Decomposition</h3>
+        <p>This one looks for early warning signs in how a company manages its books — specifically, unusual buildups in inventory paired with unusually fast collection of money owed to it. That combination can be a sign of earnings quality problems, so the signal shorts companies showing this pattern and favors those that don't.</p>
+        <div class="metrics-grid">
+          <div class="metric"><span class="val">1.66</span><span class="lbl">Sharpe</span></div>
+          <div class="metric"><span class="val">1.34</span><span class="lbl">Fitness</span></div>
+          <div class="metric"><span class="val">8.19%</span><span class="lbl">Returns</span></div>
+          <div class="metric"><span class="val">3.50%</span><span class="lbl">Turnover</span></div>
+          <div class="metric"><span class="val">3.65%</span><span class="lbl">Drawdown</span></div>
+          <div class="metric"><span class="val">46.82‱</span><span class="lbl">Margin</span></div>
+        </div>
+        <button class="egad-toggle" onclick="toggleEgad('alpha2')">
+          <span>View Alpha Logic</span><span class="chev">▾</span>
+        </button>
+        <div class="egad-panel" id="egad-alpha2">
+          <div class="egad-phase phase-gather">
+            <span class="phase-name">Expression (BRAIN fastexpr)</span>
+            <div class="egad-sub">
+<pre class="code-block">-group_neutralize(
+    <span class="cm">// Year-over-year change in inventory, scaled by total assets —</span>
+    <span class="cm">// a big unexplained inventory buildup can be a red flag</span>
+    winsorize(
+        ts_delta(inventory, 252) / assets,
+        std=2
+    ) *
+    <span class="cm">// Year-over-year change in money owed to the company, scaled</span>
+    <span class="cm">// by assets, and flipped in sign — receivables shrinking faster</span>
+    <span class="cm">// than expected can also flag aggressive accounting</span>
+    winsorize(
+        -ts_delta(receivable, 252) / assets,
+        std=2
+    ) *
+    <span class="cm">// Only apply this to companies that are actually profitable</span>
+    (operating_income > 0),
+
+    <span class="cm">// Compare each company only against others in its own</span>
+    <span class="cm">// sub-industry, so the ranking isn't skewed by sector-wide trends</span>
+    subindustry
+);</pre>
+              <p style="margin-top:12px;">In plain terms: this is a classic "quality of earnings" check. Companies piling up inventory and moving through receivables in an unusual way tend to be quietly managing their numbers — so the signal bets against those and favors companies with cleaner accounting patterns, comparing fairly within the same industry group.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="glass" style="margin-top:var(--sp-6);">
+      <h3>WorldQuant Consultant Progress</h3>
+      <p>Currently at 94% toward Consultant status — 6% remaining.</p>
+      <div style="background:rgba(255,255,255,0.08);border-radius:var(--radius-pill);height:10px;overflow:hidden;margin:var(--sp-3) 0 var(--sp-4);">
+        <div style="width:94%;height:100%;background:linear-gradient(90deg, var(--secondary), var(--primary));border-radius:var(--radius-pill);"></div>
+      </div>
+      <p class="label">What Consultant / Gold Unlocks</p>
+      <ul style="list-style:none;padding-left:0;">
+        <li style="margin-bottom:8px;color:var(--text-secondary);">→ Access to 400,000+ data fields across 12 regions</li>
+        <li style="margin-bottom:8px;color:var(--text-secondary);">→ Advanced features: longer simulation periods, data visualizations, multi-simulation, BRAIN's Python API, SuperAlphas</li>
+        <li style="margin-bottom:8px;color:var(--text-secondary);">→ Quant Advisory Program — cohort-based learning with an experienced quant researcher</li>
+        <li style="margin-bottom:8px;color:var(--text-secondary);">→ Merit-based compensation — Master-level consultants: $2,000+/quarter; Grandmaster-level: $8,000+/quarter</li>
+        <li style="margin-bottom:8px;color:var(--text-secondary);">→ Consideration for WorldQuant internships and full-time roles</li>
+      </ul>
+    </div>
+
+    <div class="glass" style="margin-top:var(--sp-6);">
+      <h3>International Quant Championship 2026</h3>
+      <p>A three-stage, team-based competition (March–September 2026) run on WorldQuant BRAIN's platform, where teams build alphas using historical market data to accumulate points. An "alpha" here is a mathematical model that tries to predict how a financial instrument's price will move.</p>
+
+      <div class="timeline" style="margin-top:var(--sp-5);">
+
+        <div class="t-item">
+          <div class="t-dot done"></div>
+          <span class="t-date">Mar 17 – May 19, 2026</span><span class="t-status done">Completed</span>
+          <h3>Stage 1 — Qualifier Round</h3>
+          <p>Teams of up to 4 from the same university competed to build alphas on the BRAIN platform, with a parallel leaderboard ranking universities by aggregate team score.</p>
+          <p><strong>Result:</strong> Finished Top 20 on the leaderboard, ranked 19,857 overall.</p>
+        </div>
+
+        <div class="t-item">
+          <div class="t-dot done"></div>
+          <span class="t-date">May 26 – Jun 23, 2026</span><span class="t-status done">Completed</span>
+          <h3>Stage 2 — National / Regional Round</h3>
+          <p>Qualifying teams moved into a virtual round followed by a presentation round to determine who advances to represent their country or region at the Global Finals.</p>
+          <p><strong>Result:</strong> Finished Top 20, ranked 17,846 — not selected to advance to the Global Finals. Talent across the field was strong; WorldQuant invited continued research toward BRAIN Research Consultant status (10,000 points) as the path forward.</p>
+        </div>
+
+        <div class="t-item">
+          <div class="t-dot"></div>
+          <span class="t-date">September 2026</span><span class="t-status planned">Not Advanced</span>
+          <h3>Stage 3 — Global Finals</h3>
+          <p>Winning national and regional teams compete in person, expected in Singapore, for the overall Championship title.</p>
+        </div>
+
+      </div>
+
+      <p style="margin-top:var(--sp-4);">Not advancing to the Finals opened a different door: reaching 10,000 points qualifies for BRAIN Research Consultant status — merit-based compensation, expanded data and tooling access, and advanced platform features — which is the target now (see progress above).</p>
+    </div>
+  </section>
+
+  <section id="goals">
+    <div class="section-header"><span class="label">Growth</span><h2>Current Learning &amp; Goals</h2></div>
+    <div class="goals-grid">
+      <div class="glass goal-card"><h4>Power BI</h4><p>Working through ALX's Visualising Data module — on track to finish by the end of July 2026.</p><span class="src">Explicit — in progress</span></div>
+      <div class="glass goal-card"><h4>Machine Learning</h4><p>Starting Andrew Ng's Machine Learning course to build a stronger foundation underneath the quant research work.</p><span class="src">Explicit</span></div>
+      <div class="glass goal-card"><h4>Polars &amp; DuckDB</h4><p>Moving away from pandas — its syntax has been a slower fit — toward Polars and DuckDB for faster, cleaner data work on the NSE project.</p><span class="src">Explicit</span></div>
+      <div class="glass goal-card"><h4>Python Depth</h4><p>Deepening Python specifically to scale the NSE quant project and put more of the EGAD framework's tooling to use.</p><span class="src">Explicit</span></div>
+      <div class="glass goal-card"><h4>TypeScript &amp; JavaScript</h4><p>Learning both to build a custom expression language for the NSE project, and to properly extend VectorDash, which is already written in TypeScript.</p><span class="src">Explicit</span></div>
+      <div class="glass goal-card"><h4>AWS Future AI Agent Engineer Track</h4><p>Currently at the assessment stage of AWS's AI Practitioner Challenge, aiming for the Agent Engineer Nanodegree track — Bedrock, multi-agent systems, and RAG.</p><span class="src">Explicit — pending selection</span></div>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="section-header"><span class="label">Journey</span><h2>Timeline</h2></div>
+    <div class="timeline">
+
+      <div class="t-item">
+        <div class="t-dot done"></div>
+        <span class="t-date">2025</span><span class="t-status done">Completed</span>
+        <h3>ALX Data Science Foundations</h3>
+        <p>Preparing Data and Visualising Data modules — spreadsheets, statistics, and Power BI fundamentals.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot done"></div>
+        <span class="t-date">Mar – Jun 2026</span><span class="t-status done">Completed</span>
+        <h3>WorldQuant BRAIN Alpha Research</h3>
+        <p>Designed and tested trading signals in a rigorous quant research environment — the discipline that later shaped Athena.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot done"></div>
+        <span class="t-date">July 2025 – March 2026</span><span class="t-status done">Completed</span>
+        <h3>VectorDash Built &amp; Deployed</h3>
+        <p>From first idea to a live, publicly deployed CPI forecasting dashboard.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot active"></div>
+        <span class="t-date">Ongoing</span><span class="t-status active">Active</span>
+        <h3>Athena — NSE Research System</h3>
+        <p>Building the data foundation layer now, with the research engine and expression language planned next.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot active"></div>
+        <span class="t-date">July 13, 2026</span><span class="t-status active">In Progress</span>
+        <h3>AWS AI Practitioner Challenge — Assessment</h3>
+        <p>Assessment deadline for a shot at the Future AWS Agent Engineer Nanodegree track.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot active"></div>
+        <span class="t-date">End of July 2026</span><span class="t-status active">In Progress</span>
+        <h3>Power BI</h3>
+        <p>Finishing the ALX Visualising Data module.</p>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <span class="t-date">Aug – Nov 2026</span><span class="t-status planned">Possible</span>
+        <h3>AWS Nanodegree — Future AI Agent Engineer</h3>
+        <p>If selected: Bedrock, Nova models, RAG, and multi-agent orchestration, with hands-on portfolio projects.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="contact" id="contact">
+    <div class="section-header" style="align-items:center;text-align:center;">
+      <span class="label">Connect</span>
+      <h2>See It Live</h2>
+    </div>
+    <a href="https://vectordash.onrender.com/" target="_blank" rel="noopener" class="btn btn-primary">VectorDash Dashboard →</a>
+  </footer>
+
+</div>
+</body>
+</html>
