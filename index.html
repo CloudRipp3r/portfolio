@@ -155,9 +155,11 @@ addEventListener('resize',resize);resize();requestAnimationFrame(draw);
 function toggleEgad(id){
   const panel=document.getElementById('egad-'+id);
   const btn=panel.previousElementSibling;
+  const label = btn.dataset.label || btn.querySelector('span:first-child').textContent.replace(/^View |^Hide /,'');
+  btn.dataset.label = label;
   panel.classList.toggle('open');
   btn.classList.toggle('open');
-  btn.querySelector('span:first-child').textContent = panel.classList.contains('open') ? 'Hide EGAD Framework' : 'View EGAD Framework';
+  btn.querySelector('span:first-child').textContent = panel.classList.contains('open') ? 'Hide ' + label : 'View ' + label;
 }
 </script>
 
