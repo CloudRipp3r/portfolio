@@ -16,8 +16,10 @@
     --neutral: #2B2A24;
 
     --ink: var(--neutral);
-    --ink-muted: rgba(43, 42, 36, 0.72);
-    --ink-faint: rgba(43, 42, 36, 0.48);
+    --ink-muted: rgba(43, 42, 36, 0.78);
+    --ink-faint: rgba(43, 42, 36, 0.54);
+    --surface-flat: rgba(239, 229, 211, 0.76);
+    --surface-inset: rgba(243, 234, 217, 0.84);
     --border: rgba(43, 42, 36, 0.16);
     --border-strong: rgba(43, 42, 36, 0.34);
 
@@ -28,13 +30,13 @@
     /* 6px base rhythm */
     --sp-1: 6px;
     --sp-2: 9px;
-    --sp-3: 13px;
-    --sp-3b: 13.86px;
-    --sp-4: 14px;
-    --sp-5: 18.48px;
-    --sp-6: 20px;
-    --sp-8: 30px;
-    --sp-section: 40.05px;
+    --sp-3: 14px;
+    --sp-4: 18px;
+    --sp-5: 24px;
+    --sp-6: 30px;
+    --sp-8: 40.05px;
+    --sp-10: 54px;
+    --sp-12: 72px;
 
     --radius: 0px;
     --dur-fast: 220ms;
@@ -55,11 +57,19 @@
     color: var(--ink);
   }
 
+  /* Fallback CSS wash only if WebGL fails */
+  html.no-webgl body {
+    background:
+      radial-gradient(circle at 20% 18%, rgba(223, 172, 98, 0.18), transparent 52%),
+      radial-gradient(circle at 80% 72%, rgba(75, 122, 61, 0.08), transparent 50%),
+      var(--secondary);
+  }
+
   body {
     font-family: var(--font-body);
     font-weight: 400;
-    font-size: 16px;
-    line-height: 1.65;
+    font-size: 18px;
+    line-height: 1.7;
     color: var(--ink);
     background-color: var(--secondary);
     min-height: 100vh;
@@ -67,49 +77,45 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Fallback atmospheric wash when WebGL is unavailable or reduced motion is enabled */
-  #wall {
-    position: relative;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 18% 12%, rgba(239, 229, 211, 0.9), transparent 56%),
-      radial-gradient(circle at 82% 74%, rgba(75, 122, 61, 0.05), transparent 52%),
-      var(--secondary);
-  }
-
   #gl {
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 0;
     pointer-events: none;
     display: block;
   }
 
-  .container {
+  #wall {
     position: relative;
     z-index: 1;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 0 var(--sp-6);
-    display: flex;
-    flex-direction: column;
+    min-height: 100vh;
   }
 
-  /* Masthead / Navigation */
-  header.mast {
-    position: relative;
-    z-index: 2;
-    max-width: 1040px;
+  .frame {
+    max-width: 1280px;
     margin: 0 auto;
-    padding: var(--sp-6) var(--sp-6) var(--sp-4);
+    padding: 0 clamp(20px, 4vw, 48px);
+  }
+
+  /* Sticky Masthead */
+  header.mast {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: rgba(243, 234, 217, 0.88);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mast-inner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--sp-4) var(--sp-8);
-    border-bottom: 1px solid var(--border);
+    gap: var(--sp-3) var(--sp-6);
+    padding-top: var(--sp-4);
+    padding-bottom: var(--sp-4);
   }
 
   .brand-link {
@@ -117,13 +123,12 @@
     font-size: 20.6691px;
     font-weight: 600;
     line-height: 20.6691px;
-    letter-spacing: 6.20073px;
+    letter-spacing: 5.5px;
     text-transform: uppercase;
     color: var(--neutral);
     text-decoration: none;
     border: 0px none var(--neutral);
     border-radius: var(--radius);
-    padding: 0;
     transition: color var(--dur-fast) ease;
   }
 
@@ -135,12 +140,12 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sp-6);
+    gap: var(--sp-5);
   }
 
   .nav-link {
     font-family: var(--font-label);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 2px;
@@ -161,7 +166,7 @@
   /* Typography */
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(42px, 6.4vw, 65.8827px);
+    font-size: clamp(44px, 5.6vw, 65.8827px);
     font-weight: 500;
     line-height: 0.98;
     letter-spacing: -0.012em;
@@ -170,25 +175,25 @@
 
   h2 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 3.8vw, 38px);
+    font-size: clamp(30px, 3.4vw, 42px);
     font-weight: 500;
-    line-height: 1.12;
+    line-height: 1.1;
     letter-spacing: -0.01em;
     color: var(--neutral);
   }
 
   h3 {
     font-family: var(--font-display);
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1.2;
     color: var(--neutral);
     margin-bottom: var(--sp-1);
   }
 
   h4 {
     font-family: var(--font-label);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 2px;
@@ -200,8 +205,7 @@
   p {
     color: var(--ink-muted);
     margin-bottom: var(--sp-3);
-    font-size: 17px;
-    line-height: 1.65;
+    max-width: 65ch;
   }
 
   p:last-child {
@@ -215,7 +219,7 @@
 
   .label {
     font-family: var(--font-label);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 2px;
@@ -225,8 +229,13 @@
   }
 
   /* Sections */
+  main.container {
+    display: flex;
+    flex-direction: column;
+  }
+
   section {
-    padding: var(--sp-section) 0;
+    padding: var(--sp-12) 0;
     border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -234,6 +243,14 @@
   }
 
   .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--sp-3) var(--sp-6);
+  }
+
+  .section-title-group {
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
@@ -247,20 +264,38 @@
 
   .section-index {
     font-family: var(--font-label);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 2px;
     color: var(--ink-faint);
   }
 
-  /* Hero */
+  .section-summary {
+    max-width: 48ch;
+    font-size: 17px;
+    color: var(--ink-muted);
+    margin-bottom: 0;
+  }
+
+  /* Hero — Full-Screen Balanced Split */
   .hero {
-    padding: calc(var(--sp-section) * 1.45) 0 calc(var(--sp-section) * 1.2);
+    min-height: calc(100vh - 68px);
+    padding: var(--sp-10) 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-8) var(--sp-10);
+  }
+
+  .hero-main {
+    flex: 1.35 1 460px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--sp-6);
+    gap: var(--sp-5);
   }
 
   .hero-meta {
@@ -270,17 +305,17 @@
   }
 
   .hero-rule {
-    width: 30px;
+    width: 32px;
     height: 1px;
     background-color: var(--primary);
   }
 
   .hero p.tagline {
     font-family: var(--font-display);
-    font-size: clamp(19px, 2.2vw, 22px);
+    font-size: clamp(20px, 2vw, 24px);
     line-height: 1.5;
     color: var(--ink-muted);
-    max-width: 660px;
+    max-width: 54ch;
     margin-bottom: 0;
   }
 
@@ -288,8 +323,57 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sp-6);
+    gap: var(--sp-5);
     margin-top: var(--sp-2);
+  }
+
+  .hero-ledger {
+    flex: 0.95 1 320px;
+    background-color: var(--surface-flat);
+    border: 1px solid var(--border);
+    padding: var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .ledger-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ledger-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ledger-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .ledger-key {
+    font-family: var(--font-label);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .ledger-val {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--neutral);
   }
 
   /* Buttons */
@@ -341,11 +425,10 @@
     text-transform: uppercase;
     color: var(--neutral);
     text-decoration: none;
-    padding: 0;
+    padding: 0 0 3px;
     border: 0px none var(--ink-muted);
     border-bottom: 1px solid var(--border-strong);
     border-radius: var(--radius);
-    padding-bottom: 3px;
     transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease;
   }
 
@@ -357,7 +440,7 @@
 
   /* Flat Surface Cards */
   .surface {
-    background-color: var(--tertiary);
+    background-color: var(--surface-flat);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: var(--sp-6);
@@ -376,7 +459,7 @@
   }
 
   .skill-group {
-    flex: 1 1 220px;
+    flex: 1 1 240px;
     display: flex;
     flex-direction: column;
   }
@@ -391,8 +474,8 @@
   .tag {
     display: inline-flex;
     align-items: center;
-    padding: 4px var(--sp-2);
-    background-color: var(--secondary);
+    padding: 4px 10px;
+    background-color: var(--surface-inset);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     font-family: var(--font-label);
@@ -405,7 +488,7 @@
     white-space: nowrap;
   }
 
-  /* Projects */
+  /* Projects — Wide 2-Column Inner Architecture */
   .projects-list {
     display: flex;
     flex-direction: column;
@@ -415,7 +498,7 @@
   .project-card {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-4);
+    gap: var(--sp-6);
     padding: var(--sp-8);
   }
 
@@ -444,6 +527,49 @@
     margin-bottom: 0;
   }
 
+  .project-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-6) var(--sp-8);
+    align-items: flex-start;
+  }
+
+  .project-narrative {
+    flex: 1.5 1 440px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .project-aside {
+    flex: 1 1 260px;
+    background-color: var(--surface-inset);
+    border: 1px solid var(--border);
+    padding: var(--sp-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .aside-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: var(--sp-3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .aside-item:last-of-type {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .aside-val {
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--neutral);
+  }
+
   .project-actions {
     display: flex;
     flex-wrap: wrap;
@@ -452,13 +578,13 @@
     margin-top: var(--sp-2);
   }
 
-  /* EGAD & Alpha Logic Toggles */
+  /* EGAD & Alpha Logic Drawers */
   .egad-toggle {
     display: inline-flex;
     align-items: center;
     gap: var(--sp-3);
-    padding: 13.5px var(--sp-6);
-    background-color: var(--secondary);
+    padding: 13.5px 20px;
+    background-color: var(--surface-inset);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius);
     color: var(--neutral);
@@ -495,15 +621,14 @@
 
   .egad-panel {
     display: none;
-    margin-top: var(--sp-4);
     padding-top: var(--sp-6);
     border-top: 1px solid var(--border);
-    flex-direction: column;
-    gap: var(--sp-4);
   }
 
   .egad-panel.open {
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
     animation: reveal var(--dur-mid) var(--ease);
   }
 
@@ -513,14 +638,20 @@
   }
 
   .egad-phase {
-    background-color: var(--secondary);
+    flex: 1 1 calc(50% - var(--sp-4));
+    min-width: 280px;
+    background-color: var(--surface-inset);
     border: 1px solid var(--border);
     border-left: 3px solid var(--phase-accent, var(--primary));
     border-radius: var(--radius);
-    padding: var(--sp-6);
+    padding: var(--sp-5);
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
+  }
+
+  .egad-phase.full-span {
+    flex: 1 1 100%;
   }
 
   .egad-phase.phase-explain { --phase-accent: var(--primary); }
@@ -530,7 +661,7 @@
 
   .phase-name {
     font-family: var(--font-label);
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 500;
     line-height: 16px;
     letter-spacing: 2px;
@@ -555,8 +686,8 @@
   }
 
   .egad-sub p {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 17px;
+    line-height: 1.65;
     margin-bottom: var(--sp-1);
   }
 
@@ -571,8 +702,8 @@
   .egad-sub li {
     position: relative;
     color: var(--ink-muted);
-    font-size: 16px;
-    line-height: 1.55;
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   .egad-sub li::before {
@@ -592,7 +723,7 @@
   }
 
   .alpha-card {
-    flex: 1 1 380px;
+    flex: 1 1 460px;
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
@@ -608,8 +739,8 @@
 
   .metric {
     flex: 1 1 calc(33.333% - var(--sp-2));
-    min-width: 96px;
-    background-color: var(--secondary);
+    min-width: 100px;
+    background-color: var(--surface-inset);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: var(--sp-3) var(--sp-2);
@@ -618,7 +749,7 @@
 
   .metric .val {
     font-family: var(--font-display);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
     line-height: 1.2;
     color: var(--neutral);
@@ -627,7 +758,7 @@
 
   .metric .lbl {
     font-family: var(--font-label);
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 500;
     line-height: 14px;
     letter-spacing: 1.5px;
@@ -637,8 +768,8 @@
 
   .code-block {
     font-family: var(--font-label);
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 12.5px;
+    line-height: 1.75;
     background-color: var(--tertiary);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -653,11 +784,19 @@
     font-style: italic;
   }
 
+  .quant-spread {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-6);
+    align-items: stretch;
+  }
+
   .quant-block {
+    flex: 1 1 440px;
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
-    padding: var(--sp-8);
+    padding: var(--sp-6);
   }
 
   .unlock-list {
@@ -672,7 +811,8 @@
     align-items: baseline;
     gap: var(--sp-3);
     color: var(--ink-muted);
-    font-size: 16px;
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   .unlock-list li::before {
@@ -684,12 +824,30 @@
   }
 
   /* Timeline */
-  .timeline {
-    position: relative;
-    padding-left: var(--sp-8);
+  .timeline-split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-8) var(--sp-10);
+    align-items: flex-start;
+  }
+
+  .timeline-intro {
+    flex: 0.85 1 280px;
     display: flex;
     flex-direction: column;
-    gap: var(--sp-8);
+    gap: var(--sp-4);
+  }
+
+  .timeline-track {
+    flex: 1.6 1 480px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: var(--sp-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
   }
 
   .timeline::before {
@@ -711,7 +869,7 @@
 
   .t-dot {
     position: absolute;
-    left: calc(-1 * var(--sp-8));
+    left: calc(-1 * var(--sp-6));
     top: 4px;
     width: 9px;
     height: 9px;
@@ -754,7 +912,7 @@
     line-height: 16px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    padding: 2px var(--sp-2);
+    padding: 2px 8px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
   }
@@ -784,11 +942,11 @@
   }
 
   .goal-card {
-    flex: 1 1 280px;
+    flex: 1 1 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: var(--sp-3);
+    gap: var(--sp-4);
   }
 
   .goal-card .src {
@@ -806,7 +964,7 @@
 
   /* Footer */
   footer.contact {
-    padding: calc(var(--sp-section) * 1.2) 0;
+    padding: var(--sp-12) 0 var(--sp-8);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -822,7 +980,7 @@
 
   .colophon {
     width: 100%;
-    padding-top: var(--sp-6);
+    padding-top: var(--sp-5);
     border-top: 1px solid var(--border);
     display: flex;
     flex-wrap: wrap;
@@ -837,25 +995,24 @@
   }
 
   /* Responsive */
-  @media (max-width: 768px) {
-    header.mast {
-      padding: var(--sp-4) var(--sp-4);
-    }
-    .container {
-      padding: 0 var(--sp-4);
-    }
-    section {
+  @media (max-width: 820px) {
+    .hero {
+      min-height: auto;
       padding: var(--sp-8) 0;
     }
-    .hero {
-      padding: var(--sp-section) 0;
+    section {
+      padding: var(--sp-10) 0;
     }
     .project-card,
-    .quant-block {
-      padding: var(--sp-6);
+    .quant-block,
+    .alpha-card {
+      padding: var(--sp-5);
+    }
+    .egad-phase {
+      flex: 1 1 100%;
     }
     nav.mast-nav {
-      gap: var(--sp-4);
+      gap: var(--sp-3);
     }
   }
 
@@ -871,49 +1028,79 @@
 </style>
 </head>
 <body>
-<div id="wall">
-  <canvas id="gl" aria-hidden="true"></canvas>
+<canvas id="gl" aria-hidden="true"></canvas>
 
+<div id="wall">
   <header class="mast">
-    <a href="#" class="brand-link">Wanjohi Karimi · 研</a>
-    <nav class="mast-nav" aria-label="Primary Navigation">
-      <a href="#skills" class="nav-link">Capabilities</a>
-      <a href="#projects" class="nav-link">Projects</a>
-      <a href="#alphas" class="nav-link">Alphas</a>
-      <a href="#goals" class="nav-link">Growth</a>
-      <a href="#timeline" class="nav-link">Timeline</a>
-      <a href="#contact" class="nav-link">Connect</a>
-    </nav>
+    <div class="frame mast-inner">
+      <a href="#" class="brand-link">Wanjohi Karimi</a>
+      <nav class="mast-nav" aria-label="Primary Navigation">
+        <a href="#skills" class="nav-link">Capabilities</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#alphas" class="nav-link">Alphas</a>
+        <a href="#goals" class="nav-link">Growth</a>
+        <a href="#timeline" class="nav-link">Timeline</a>
+        <a href="#contact" class="nav-link">Connect</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
+  <main class="frame container">
 
     <section class="hero" aria-label="Introduction">
-      <div class="hero-meta">
-        <span class="hero-rule" aria-hidden="true"></span>
-        <span class="label">Data &amp; Quant Research</span>
+      <div class="hero-main">
+        <div class="hero-meta">
+          <span class="hero-rule" aria-hidden="true"></span>
+          <span class="label">Data &amp; Quant Research</span>
+        </div>
+        <h1>Wanjohi Karimi</h1>
+        <p class="tagline">Data analyst focused on markets and AI engineering. I build research tools and data systems, and I’m currently deep in NSE market research.</p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn-primary">
+            <span>View Projects</span>
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+              <path d="M0 5h11M7 1l4 4-4 4"></path>
+            </svg>
+          </a>
+          <a href="#alphas" class="btn-link">Alpha Research</a>
+          <a href="#contact" class="btn-link">Connect</a>
+        </div>
       </div>
-      <h1>Wanjohi Karimi</h1>
-      <p class="tagline">Data analyst focused on markets and AI engineering. I build research tools and data systems, and I’m currently deep in NSE market research.</p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn-primary">
-          <span>View Projects</span>
-          <svg width="12" height="10" viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
-            <path d="M0 5h11M7 1l4 4-4 4"></path>
-          </svg>
-        </a>
-        <a href="#alphas" class="btn-link">Alpha Research</a>
-        <a href="#contact" class="btn-link">Connect</a>
-      </div>
+
+      <aside class="hero-ledger" aria-label="Research Snapshot">
+        <div class="ledger-head">
+          <span class="label">Research Index</span>
+          <span class="section-index">2025 — 2026</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-key">Active System</span>
+          <span class="ledger-val">Athena — 66 NSE Companies, 2007–2025</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-key">Live Tool</span>
+          <span class="ledger-val">VectorDash — US CPI Forecast Dashboard</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-key">Quant Standing</span>
+          <span class="ledger-val">Top 15% IQC 2026 · 2 Submitted BRAIN Alphas</span>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-key">Core Stack</span>
+          <span class="ledger-val">SQL · Python · Polars · DuckDB · TypeScript</span>
+        </div>
+      </aside>
     </section>
 
     <section id="skills">
       <div class="section-header">
-        <div class="section-kicker">
-          <span class="section-index">01</span>
-          <span class="label">Capabilities</span>
+        <div class="section-title-group">
+          <div class="section-kicker">
+            <span class="section-index">01</span>
+            <span class="label">Capabilities</span>
+          </div>
+          <h2>Skills</h2>
         </div>
-        <h2>Skills</h2>
+        <p class="section-summary">Tools and analytical disciplines across market data pipelines, quantitative signal testing, and applied AI workflows.</p>
       </div>
 
       <div class="skills-groups">
@@ -965,11 +1152,14 @@
 
     <section id="projects">
       <div class="section-header">
-        <div class="section-kicker">
-          <span class="section-index">02</span>
-          <span class="label">Work</span>
+        <div class="section-title-group">
+          <div class="section-kicker">
+            <span class="section-index">02</span>
+            <span class="label">Work</span>
+          </div>
+          <h2>Projects</h2>
         </div>
-        <h2>Projects</h2>
+        <p class="section-summary">End-to-end systems built around validated datasets, clear quantitative hypotheses, and practical interfaces.</p>
       </div>
 
       <div class="projects-list">
@@ -979,21 +1169,39 @@
             <h3>Athena — NSE Quantitative Research System</h3>
             <p class="meta">In Progress · Foundation Phase</p>
           </div>
-          <div>
-            <p>A private research system for the Nairobi Securities Exchange, built to bring together clean market data, a signal-testing environment, and a simple language for expressing trading ideas — inspired directly by the discipline learned from WorldQuant BRAIN's alpha research process.</p>
-            <p>The goal is to make it possible to reliably ask questions of 66 NSE-listed companies' financial and market history, test trading ideas against nearly two decades of data, and eventually let non-programmers write valid signal expressions in plain syntax.</p>
-          </div>
-          <div class="tag-group">
-            <span class="tag">Data Validation</span>
-            <span class="tag">Cloud Databases</span>
-            <span class="tag">Signal Research</span>
-            <span class="tag">System Design</span>
-          </div>
-          <div class="project-actions">
-            <button class="egad-toggle" type="button" aria-expanded="false" aria-controls="egad-athena" onclick="toggleEgad('athena', this)">
-              <span class="toggle-text">View EGAD Framework</span>
-              <span class="chev" aria-hidden="true">▾</span>
-            </button>
+
+          <div class="project-body">
+            <div class="project-narrative">
+              <p>A private research system for the Nairobi Securities Exchange, built to bring together clean market data, a signal-testing environment, and a simple language for expressing trading ideas — inspired directly by the discipline learned from WorldQuant BRAIN's alpha research process.</p>
+              <p>The goal is to make it possible to reliably ask questions of 66 NSE-listed companies' financial and market history, test trading ideas against nearly two decades of data, and eventually let non-programmers write valid signal expressions in plain syntax.</p>
+              <div class="tag-group">
+                <span class="tag">Data Validation</span>
+                <span class="tag">Cloud Databases</span>
+                <span class="tag">Signal Research</span>
+                <span class="tag">System Design</span>
+              </div>
+              <div class="project-actions">
+                <button class="egad-toggle" type="button" aria-expanded="false" aria-controls="egad-athena" onclick="toggleEgad('athena', this)">
+                  <span class="toggle-text">View EGAD Framework</span>
+                  <span class="chev" aria-hidden="true">▾</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="project-aside">
+              <div class="aside-item">
+                <span class="ledger-key">Coverage</span>
+                <span class="aside-val">66 listed companies · 13 sectors · 2007–2025</span>
+              </div>
+              <div class="aside-item">
+                <span class="ledger-key">Execution Target</span>
+                <span class="aside-val">NEXT derivatives (~0.22% cost vs 0.9%–2.2% spot)</span>
+              </div>
+              <div class="aside-item">
+                <span class="ledger-key">Current Milestone</span>
+                <span class="aside-val">Plan 1 — Six-category validated data foundation</span>
+              </div>
+            </div>
           </div>
 
           <div class="egad-panel" id="egad-athena">
@@ -1092,28 +1300,46 @@
             <h3>VectorDash — CPI Forecast Dashboard</h3>
             <p class="meta">Built July 2025 – March 2026 · Live</p>
           </div>
-          <div>
-            <p>Before this existed, checking US inflation data meant manually scanning several different government and financial sites just to see how CPI and its underlying drivers were trending. VectorDash brings all of it — CPI, producer prices, wages, rent, gas prices, and interest rate signals — into one place, with a forecasting model and AI-generated summaries explaining what the numbers actually mean.</p>
-            <p>It was built to solve a problem I ran into myself: needing a fast, visual way to check inflation trends without digging through raw data every time. I built it end to end through AI-assisted (“vibe”) coding, directing AI from design to deployment to test how far it can take a production tool.</p>
-          </div>
-          <div class="tag-group">
-            <span class="tag">React / TypeScript</span>
-            <span class="tag">Forecast Modeling</span>
-            <span class="tag">Gemini API</span>
-            <span class="tag">FRED API</span>
-            <span class="tag">Dashboard Design</span>
-          </div>
-          <div class="project-actions">
-            <a class="btn-primary" href="https://vectordash.onrender.com/" target="_blank" rel="noopener">
-              <span>Open Live Dashboard</span>
-              <svg width="12" height="10" viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
-                <path d="M0 5h11M7 1l4 4-4 4"></path>
-              </svg>
-            </a>
-            <button class="egad-toggle" type="button" aria-expanded="false" aria-controls="egad-vectordash" onclick="toggleEgad('vectordash', this)">
-              <span class="toggle-text">View EGAD Framework</span>
-              <span class="chev" aria-hidden="true">▾</span>
-            </button>
+
+          <div class="project-body">
+            <div class="project-narrative">
+              <p>Before this existed, checking US inflation data meant manually scanning several different government and financial sites just to see how CPI and its underlying drivers were trending. VectorDash brings all of it — CPI, producer prices, wages, rent, gas prices, and interest rate signals — into one place, with a forecasting model and AI-generated summaries explaining what the numbers actually mean.</p>
+              <p>It was built to solve a problem I ran into myself: needing a fast, visual way to check inflation trends without digging through raw data every time. I built it end to end through AI-assisted (“vibe”) coding, directing AI from design to deployment to test how far it can take a production tool.</p>
+              <div class="tag-group">
+                <span class="tag">React / TypeScript</span>
+                <span class="tag">Forecast Modeling</span>
+                <span class="tag">Gemini API</span>
+                <span class="tag">FRED API</span>
+                <span class="tag">Dashboard Design</span>
+              </div>
+              <div class="project-actions">
+                <a class="btn-primary" href="https://vectordash.onrender.com/" target="_blank" rel="noopener">
+                  <span>Open Live Dashboard</span>
+                  <svg width="12" height="10" viewBox="0 0 12 10" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                    <path d="M0 5h11M7 1l4 4-4 4"></path>
+                  </svg>
+                </a>
+                <button class="egad-toggle" type="button" aria-expanded="false" aria-controls="egad-vectordash" onclick="toggleEgad('vectordash', this)">
+                  <span class="toggle-text">View EGAD Framework</span>
+                  <span class="chev" aria-hidden="true">▾</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="project-aside">
+              <div class="aside-item">
+                <span class="ledger-key">Inputs</span>
+                <span class="aside-val">Headline &amp; Core CPI, PPI, Wages, Rent/OER, Gas, Yields</span>
+              </div>
+              <div class="aside-item">
+                <span class="ledger-key">Stack</span>
+                <span class="aside-val">React / TypeScript · Express · FRED · Gemini API</span>
+              </div>
+              <div class="aside-item">
+                <span class="ledger-key">Status</span>
+                <span class="aside-val">Deployed at vectordash.onrender.com</span>
+              </div>
+            </div>
           </div>
 
           <div class="egad-panel" id="egad-vectordash">
@@ -1184,14 +1410,17 @@
 
     <section id="alphas">
       <div class="section-header">
-        <div class="section-kicker">
-          <span class="section-index">03</span>
-          <span class="label">Quant Research</span>
+        <div class="section-title-group">
+          <div class="section-kicker">
+            <span class="section-index">03</span>
+            <span class="label">Quant Research</span>
+          </div>
+          <h2>WorldQuant BRAIN — Alpha Research</h2>
         </div>
-        <h2>WorldQuant BRAIN — Alpha Research</h2>
+        <p class="section-summary">Before Athena, I spent time in WorldQuant BRAIN's research environment, where the challenge is to design trading signals ("alphas") and prove — with strict testing rules — that they actually hold up on real market data.</p>
       </div>
 
-      <p>Before Athena, I spent time in WorldQuant BRAIN's research environment, where the challenge is to design trading signals ("alphas") and prove — with strict testing rules — that they actually hold up on real market data. I haven't reached Consultant status yet, but the discipline from this process shaped how Athena is being built today. Here are the two alphas I submitted and passed:</p>
+      <p>I haven't reached Consultant status yet, but the discipline from this process shaped how Athena is being built today. Here are the two alphas I submitted and passed:</p>
 
       <div class="alpha-grid">
 
@@ -1216,7 +1445,7 @@
           </div>
 
           <div class="egad-panel" id="egad-alpha1">
-            <div class="egad-phase phase-gather">
+            <div class="egad-phase full-span phase-gather">
               <span class="phase-name">Expression (BRAIN fastexpr)</span>
               <div class="egad-sub">
 <pre class="code-block"><span class="cm">// Rank every company by the gap below, from lowest to highest</span>
@@ -1262,7 +1491,7 @@ alpha = rank(
           </div>
 
           <div class="egad-panel" id="egad-alpha2">
-            <div class="egad-phase phase-gather">
+            <div class="egad-phase full-span phase-gather">
               <span class="phase-name">Expression (BRAIN fastexpr)</span>
               <div class="egad-sub">
 <pre class="code-block">-group_neutralize(
@@ -1294,73 +1523,78 @@ alpha = rank(
 
       </div>
 
-      <div class="surface quant-block">
-        <div>
-          <h3>WorldQuant Consultant Progress</h3>
-          <p>Working toward BRAIN Research Consultant status, which requires 10,000 points on the platform.</p>
-        </div>
-        <span class="label">What Consultant / Gold Unlocks</span>
-        <ul class="unlock-list">
-          <li>Access to 400,000+ data fields across 12 regions</li>
-          <li>Advanced features: longer simulation periods, data visualizations, multi-simulation, BRAIN's Python API, SuperAlphas</li>
-          <li>Quant Advisory Program — cohort-based learning with an experienced quant researcher</li>
-          <li>Merit-based compensation — Master-level consultants: $2,000+/quarter; Grandmaster-level: $8,000+/quarter</li>
-          <li>Consideration for WorldQuant internships and full-time roles</li>
-        </ul>
-      </div>
-
-      <div class="surface quant-block">
-        <div>
-          <h3>International Quant Championship 2026</h3>
-          <p>A three-stage, team-based competition (March–September 2026) run on WorldQuant BRAIN's platform, where teams build alphas using historical market data to accumulate points. An "alpha" here is a mathematical model that tries to predict how a financial instrument's price will move.</p>
-          <p><strong>Overall result:</strong> Top 15% of the world’s largest finance competition — 156,000+ registrants from 167 countries.</p>
+      <div class="quant-spread">
+        <div class="surface quant-block">
+          <div>
+            <h3>WorldQuant Consultant Progress</h3>
+            <p>Working toward BRAIN Research Consultant status, which requires 10,000 points on the platform.</p>
+          </div>
+          <span class="label">What Consultant / Gold Unlocks</span>
+          <ul class="unlock-list">
+            <li>Access to 400,000+ data fields across 12 regions</li>
+            <li>Advanced features: longer simulation periods, data visualizations, multi-simulation, BRAIN's Python API, SuperAlphas</li>
+            <li>Quant Advisory Program — cohort-based learning with an experienced quant researcher</li>
+            <li>Merit-based compensation — Master-level consultants: $2,000+/quarter; Grandmaster-level: $8,000+/quarter</li>
+            <li>Consideration for WorldQuant internships and full-time roles</li>
+          </ul>
         </div>
 
-        <div class="timeline">
-          <div class="t-item">
-            <div class="t-dot done"></div>
-            <div class="t-head">
-              <span class="t-date">Mar 17 – May 19, 2026</span>
-              <span class="t-status done">Completed</span>
-            </div>
-            <h3>Stage 1 — Qualifier Round</h3>
-            <p>Teams of up to 4 from the same university competed to build alphas on the BRAIN platform, with a parallel leaderboard ranking universities by aggregate team score.</p>
-            <p><strong>Result:</strong> Team qualified for Stage 2 as one of the top 20% of teams globally.</p>
+        <div class="surface quant-block">
+          <div>
+            <h3>International Quant Championship 2026</h3>
+            <p>A three-stage, team-based competition (March–September 2026) run on WorldQuant BRAIN's platform, where teams build alphas using historical market data to accumulate points. An "alpha" here is a mathematical model that tries to predict how a financial instrument's price will move.</p>
+            <p><strong>Overall result:</strong> Top 15% of the world’s largest finance competition — 156,000+ registrants from 167 countries.</p>
           </div>
 
-          <div class="t-item">
-            <div class="t-dot done"></div>
-            <div class="t-head">
-              <span class="t-date">May 26 – Jun 23, 2026</span>
-              <span class="t-status done">Completed</span>
+          <div class="timeline">
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">Mar 17 – May 19, 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>Stage 1 — Qualifier Round</h3>
+              <p>Teams of up to 4 from the same university competed to build alphas on the BRAIN platform, with a parallel leaderboard ranking universities by aggregate team score.</p>
+              <p><strong>Result:</strong> Team qualified for Stage 2 as one of the top 20% of teams globally.</p>
             </div>
-            <h3>Stage 2 — National / Regional Round</h3>
-            <p>Qualifying teams moved into a virtual round followed by a presentation round to determine who advances to represent their country or region at the Global Finals.</p>
-            <p><strong>Result:</strong> Not selected to advance to the Global Finals. Talent across the field was strong; WorldQuant invited continued research toward BRAIN Research Consultant status (10,000 points) as the path forward.</p>
+
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">May 26 – Jun 23, 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>Stage 2 — National / Regional Round</h3>
+              <p>Qualifying teams moved into a virtual round followed by a presentation round to determine who advances to represent their country or region at the Global Finals.</p>
+              <p><strong>Result:</strong> Not selected to advance to the Global Finals. Talent across the field was strong; WorldQuant invited continued research toward BRAIN Research Consultant status (10,000 points) as the path forward.</p>
+            </div>
+
+            <div class="t-item">
+              <div class="t-dot"></div>
+              <div class="t-head">
+                <span class="t-date">September 2026</span>
+                <span class="t-status planned">Not Advanced</span>
+              </div>
+              <h3>Stage 3 — Global Finals</h3>
+              <p>Winning national and regional teams compete in person, expected in Singapore, for the overall Championship title.</p>
+            </div>
           </div>
 
-          <div class="t-item">
-            <div class="t-dot"></div>
-            <div class="t-head">
-              <span class="t-date">September 2026</span>
-              <span class="t-status planned">Not Advanced</span>
-            </div>
-            <h3>Stage 3 — Global Finals</h3>
-            <p>Winning national and regional teams compete in person, expected in Singapore, for the overall Championship title.</p>
-          </div>
+          <p>Not advancing to the Finals opened a different door: reaching 10,000 points qualifies for BRAIN Research Consultant status — merit-based compensation, expanded data and tooling access, and advanced platform features — which is the target now (see progress above).</p>
         </div>
-
-        <p>Not advancing to the Finals opened a different door: reaching 10,000 points qualifies for BRAIN Research Consultant status — merit-based compensation, expanded data and tooling access, and advanced platform features — which is the target now (see progress above).</p>
       </div>
     </section>
 
     <section id="goals">
       <div class="section-header">
-        <div class="section-kicker">
-          <span class="section-index">04</span>
-          <span class="label">Growth</span>
+        <div class="section-title-group">
+          <div class="section-kicker">
+            <span class="section-index">04</span>
+            <span class="label">Growth</span>
+          </div>
+          <h2>Current Learning &amp; Goals</h2>
         </div>
-        <h2>Current Learning &amp; Goals</h2>
+        <p class="section-summary">Deliberate skill depth aimed at scaling Athena, extending VectorDash, and shipping applied agent tooling.</p>
       </div>
 
       <div class="goals-grid">
@@ -1407,69 +1641,74 @@ alpha = rank(
     </section>
 
     <section id="timeline">
-      <div class="section-header">
-        <div class="section-kicker">
-          <span class="section-index">05</span>
-          <span class="label">Journey</span>
-        </div>
-        <h2>Timeline</h2>
-      </div>
-
-      <div class="timeline">
-        <div class="t-item">
-          <div class="t-dot done"></div>
-          <div class="t-head">
-            <span class="t-date">Jan 2025 – Aug 2026</span>
-            <span class="t-status done">Completed</span>
+      <div class="timeline-split">
+        <div class="timeline-intro">
+          <div class="section-kicker">
+            <span class="section-index">05</span>
+            <span class="label">Journey</span>
           </div>
-          <h3>ALX Africa Data Analytics</h3>
-          <p>Professional Foundations and Data Analytics: data cleaning and preparation, statistical analysis, Excel and SQL.</p>
+          <h2>Timeline</h2>
+          <p>From data analytics foundations and live macroeconomic tooling to building dedicated quantitative infrastructure for Kenyan markets.</p>
         </div>
 
-        <div class="t-item">
-          <div class="t-dot done"></div>
-          <div class="t-head">
-            <span class="t-date">Mar – Jun 2026</span>
-            <span class="t-status done">Completed</span>
-          </div>
-          <h3>AWS AI &amp; ML Scholars — Challenge Phase</h3>
-          <p>Foundational training in generative AI, large language models, machine learning, NLP and responsible AI, delivered through Udacity.</p>
-        </div>
+        <div class="timeline-track">
+          <div class="timeline">
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">Jan 2025 – Aug 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>ALX Africa Data Analytics</h3>
+              <p>Professional Foundations and Data Analytics: data cleaning and preparation, statistical analysis, Excel and SQL.</p>
+            </div>
 
-        <div class="t-item">
-          <div class="t-dot done"></div>
-          <div class="t-head">
-            <span class="t-date">Mar – Jun 2026</span>
-            <span class="t-status done">Completed</span>
-          </div>
-          <h3>WorldQuant BRAIN Alpha Research</h3>
-          <p>Designed and tested trading signals in a rigorous quant research environment — the discipline that later shaped Athena.</p>
-        </div>
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">Mar – Jun 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>AWS AI &amp; ML Scholars — Challenge Phase</h3>
+              <p>Foundational training in generative AI, large language models, machine learning, NLP and responsible AI, delivered through Udacity.</p>
+            </div>
 
-        <div class="t-item">
-          <div class="t-dot done"></div>
-          <div class="t-head">
-            <span class="t-date">July 2025 – March 2026</span>
-            <span class="t-status done">Completed</span>
-          </div>
-          <h3>VectorDash Built &amp; Deployed</h3>
-          <p>From first idea to a live, publicly deployed CPI forecasting dashboard.</p>
-        </div>
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">Mar – Jun 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>WorldQuant BRAIN Alpha Research</h3>
+              <p>Designed and tested trading signals in a rigorous quant research environment — the discipline that later shaped Athena.</p>
+            </div>
 
-        <div class="t-item">
-          <div class="t-dot active"></div>
-          <div class="t-head">
-            <span class="t-date">Ongoing</span>
-            <span class="t-status active">Active</span>
+            <div class="t-item">
+              <div class="t-dot done"></div>
+              <div class="t-head">
+                <span class="t-date">July 2025 – March 2026</span>
+                <span class="t-status done">Completed</span>
+              </div>
+              <h3>VectorDash Built &amp; Deployed</h3>
+              <p>From first idea to a live, publicly deployed CPI forecasting dashboard.</p>
+            </div>
+
+            <div class="t-item">
+              <div class="t-dot active"></div>
+              <div class="t-head">
+                <span class="t-date">Ongoing</span>
+                <span class="t-status active">Active</span>
+              </div>
+              <h3>Athena — NSE Research System</h3>
+              <p>Building the data foundation layer now, with the research engine and expression language planned next.</p>
+            </div>
           </div>
-          <h3>Athena — NSE Research System</h3>
-          <p>Building the data foundation layer now, with the research engine and expression language planned next.</p>
         </div>
       </div>
     </section>
 
     <footer class="contact" id="contact">
-      <div class="section-header">
+      <div class="section-title-group">
         <div class="section-kicker">
           <span class="section-index">06</span>
           <span class="label">Connect</span>
@@ -1500,7 +1739,7 @@ alpha = rank(
 
       <div class="colophon">
         <span>Wanjohi Karimi</span>
-        <span>Nairobi · Quantitative Research &amp; Data Systems</span>
+        <span>Quantitative Research &amp; Data Systems</span>
       </div>
     </footer>
 
@@ -1521,13 +1760,18 @@ alpha = rank(
     textEl.textContent = (isOpen ? 'Hide ' : 'View ') + btn.dataset.label;
   }
 
-  (function initKomorebiField() {
+  (function initAtmosphereField() {
     var canvas = document.getElementById('gl');
     if (!canvas) return;
 
-    var gl = canvas.getContext('webgl', { alpha: true, antialias: false, depth: false, stencil: false });
-    if (!gl) {
+    function failToDomFallback() {
       canvas.style.display = 'none';
+      document.documentElement.classList.add('no-webgl');
+    }
+
+    var gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false });
+    if (!gl) {
+      failToDomFallback();
       return;
     }
 
@@ -1546,9 +1790,9 @@ alpha = rank(
       '}',
       'float fbm(vec2 p){',
       '  float v=0.0, a=0.5;',
-      '  for(int i=0;i<3;i++){',
+      '  for(int i=0;i<4;i++){',
       '    v+=a*noise(p);',
-      '    p=p*2.02+vec2(13.7,9.2);',
+      '    p=p*2.03+vec2(11.3,7.9);',
       '    a*=0.5;',
       '  }',
       '  return v;',
@@ -1557,23 +1801,30 @@ alpha = rank(
       '  vec2 uv=gl_FragCoord.xy/uRes;',
       '  vec2 aspect=vec2(uRes.x/max(uRes.y,1.0), 1.0);',
       '  vec2 st=uv*aspect;',
-      '  float t=uTime*0.09;',
-      '  float breath=0.5+0.5*sin(uTime*0.42);',
-      '  float n1=fbm(st*2.1+vec2(t, -t*0.6));',
-      '  float n2=fbm(st*3.6-vec2(t*0.4, t*0.8)+n1*0.65);',
-      '  float haze=smoothstep(0.22, 0.85, mix(n1, n2, 0.55));',
-      '  vec2 cell=fract(gl_FragCoord.xy/72.0);',
-      '  float sparse=step(0.985, max(1.0-cell.x, 1.0-cell.y))*0.025;',
-      '  float grain=(h21(gl_FragCoord.xy+fract(uTime)*17.0)-0.5)*0.018;',
+      '  float t=uTime*0.24;',
+      '  float breath=0.5+0.5*sin(uTime*0.85);',
+      '  float n1=fbm(st*1.75+vec2(t*0.65, -t*0.42));',
+      '  float n2=fbm(st*2.65-vec2(t*0.35, t*0.55)+vec2(n1*0.85));',
+      '  float haze=smoothstep(0.24, 0.86, mix(n1, n2, 0.55));',
+      '  float dpr=max(uCalm.w, 1.0);',
+      '  float spacing=56.0*dpr;',
+      '  vec2 cellPos=mod(gl_FragCoord.xy, spacing)-spacing*0.5;',
+      '  vec2 cellId=floor(gl_FragCoord.xy/spacing);',
+      '  float phase=h21(cellId)*6.28318;',
+      '  float nodeBreath=0.25+0.75*(0.5+0.5*sin(uTime*0.95+phase));',
+      '  float dotMask=1.0-smoothstep(0.9*dpr, 2.0*dpr, length(cellPos));',
+      '  float grain=(h21(gl_FragCoord.xy+fract(uTime)*13.0)-0.5)*0.016;',
       '  vec3 base=vec3(0.953, 0.918, 0.851);',
-      '  vec3 paper=vec3(0.937, 0.898, 0.827);',
-      '  vec3 softAmber=vec3(0.910, 0.840, 0.715);',
-      '  vec3 mossMist=vec3(0.294, 0.478, 0.239);',
-      '  vec3 col=mix(base, paper, haze*0.65);',
-      '  float amberGlow=smoothstep(0.45, 0.92, n2)*(0.18+0.14*breath)*uCalm.x;',
-      '  col=mix(col, softAmber, amberGlow);',
-      '  col=mix(col, mossMist, smoothstep(0.68, 0.98, n1)*0.035*breath);',
-      '  col-=sparse*0.35;',
+      '  vec3 sand=vec3(0.895, 0.836, 0.728);',
+      '  vec3 softAmber=vec3(0.875, 0.722, 0.478);',
+      '  vec3 moss=vec3(0.294, 0.478, 0.239);',
+      '  vec3 ink=vec3(0.169, 0.165, 0.141);',
+      '  vec3 col=mix(base, sand, haze*0.68);',
+      '  float amberWave=smoothstep(0.38, 0.90, n2)*(0.14+0.22*breath)*uCalm.x;',
+      '  col=mix(col, softAmber, amberWave);',
+      '  float mossPocket=smoothstep(0.60, 0.95, n1)*(0.05+0.05*(1.0-breath));',
+      '  col=mix(col, moss, mossPocket);',
+      '  col=mix(col, mix(moss, ink, 0.45), dotMask*nodeBreath*0.24);',
       '  col+=grain;',
       '  gl_FragColor=vec4(col, 1.0);',
       '}'
@@ -1590,7 +1841,7 @@ alpha = rank(
     var vs = compile(gl.VERTEX_SHADER, VS);
     var fs = compile(gl.FRAGMENT_SHADER, FS);
     if (!vs || !fs) {
-      canvas.style.display = 'none';
+      failToDomFallback();
       return;
     }
 
@@ -1599,7 +1850,7 @@ alpha = rank(
     gl.attachShader(prog, fs);
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-      canvas.style.display = 'none';
+      failToDomFallback();
       return;
     }
     gl.useProgram(prog);
@@ -1616,10 +1867,11 @@ alpha = rank(
     var uTime = gl.getUniformLocation(prog, 'uTime');
     var uCalm = gl.getUniformLocation(prog, 'uCalm');
 
+    var currentDpr = 1;
     function resize() {
-      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
+      currentDpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * currentDpr);
+      canvas.height = Math.floor(window.innerHeight * currentDpr);
       gl.viewport(0, 0, canvas.width, canvas.height);
     }
 
@@ -1630,10 +1882,10 @@ alpha = rank(
     var start = performance.now();
 
     function render(now) {
-      var elapsed = reducedMotion ? 0 : (now - start) * 0.001;
+      var elapsed = reducedMotion ? 1.2 : (now - start) * 0.001;
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, elapsed);
-      gl.uniform4f(uCalm, 0.85, 0.5, 0.25, 1.0);
+      gl.uniform4f(uCalm, 1.0, 0.5, 0.25, currentDpr);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       if (!reducedMotion) {
         requestAnimationFrame(render);
